@@ -1,6 +1,4 @@
-# Olá, Mundo
- Repositório versionado do Curso de Git e Github - Curso em Video
+# Repositório Inicial
+ Primeiro Repositório versionado inciado como uma simples teste
 
  Repositório criado durante a pandemia de COVID-19
-
- Linha adicionada diretamente no GitHub
