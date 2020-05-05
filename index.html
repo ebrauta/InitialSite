@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplo em React</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Chamada React  -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <!-- Chamada Bootstrap + JQuery -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="js/Titulo.js"></script>
+    <script type="text/babel">
+      class App extends React.Component {
+        state = {
+          characters: [
+            {
+              name: "Ana",
+              job: "Gerente",
+              age: 39,
+              city: "Vitória",
+            },
+            {
+              name: "Bruno",
+              job: "Caixa",
+              age: 25,
+              city: "Cariacica",
+            },
+            {
+              name: "Claudio",
+              job: "Repositor",
+              age: 23,
+              city: "Viana",
+            },
+            {
+              name: "Denise",
+              job: "Açougueira",
+              age: 29,
+              city: "Serra",
+            },
+          ],
+        };
+        removeCharacter = (index) => {
+          const { characters } = this.state;
+
+          this.setState({
+            characters: characters.filter((character, i) => {
+              return i !== index;
+            }),
+          });
+        };
+
+        handleSubmit = (character) => {
+          this.setState({ characters: [...this.state.characters, character] });
+        };
+
+        render() {
+          const { characters } = this.state;
+          return (
+            <div className="container" style={{ marginTop: 20 }}>
+              <Titulo />
+              <hr />
+              <Form handleSubmit={this.handleSubmit} />
+              <hr />
+              <Table
+                characterData={characters}
+                removeCharacter={this.removeCharacter}
+              />
+            </div>
+          );
+        }
+      }
+
+      const Titulo = () => {
+        return <h1>Olá Mundo!</h1>;
+      };
+
+      const TableHeader = () => {
+        return (
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Emprego</th>
+              <th>Idade</th>
+              <th>Cidade</th>
+            </tr>
+          </thead>
+        );
+      };
+
+      const TableBody = (props) => {
+        const rows = props.characterData.map((row, index) => {
+          return (
+            <tr key={index}>
+              <td>{row.name}</td>
+              <td>{row.job}</td>
+              <td>{row.age} anos</td>
+              <td>{row.city}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => props.removeCharacter(index)}
+                >
+                  Apagar
+                </button>
+              </td>
+            </tr>
+          );
+        });
+
+        return <tbody>{rows}</tbody>;
+      };
+
+      const Table = (props) => {
+        const { characterData, removeCharacter } = props;
+
+        return (
+          <table className="table table-striped table-dark">
+            <TableHeader />
+            <TableBody
+              characterData={characterData}
+              removeCharacter={removeCharacter}
+            />
+          </table>
+        );
+      };
+
+      class Form extends React.Component {
+        initialState = {
+          name: "",
+          job: "",
+          age: 0,
+          city: "",
+        };
+        state = this.initialState;
+
+        handleChange = (event) => {
+          const { name, value } = event.target;
+
+          this.setState({
+            [name]: value,
+          });
+        };
+        submitForm = () => {
+          this.props.handleSubmit(this.state);
+          this.setState(this.initialState);
+        };
+        render() {
+          const { name, job, age, city } = this.state;
+
+          return (
+            <form>
+              <div className="form-group">
+                <label htmlFor="name">Nome: </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="form-control"
+                  value={name}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="job">Trabalho</label>
+                <input
+                  type="text"
+                  name="job"
+                  id="job"
+                  className="form-control"
+                  value={job}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="age">Idade</label>
+                <input
+                  type="number"
+                  name="age"
+                  id="age"
+                  className="form-control"
+                  value={age}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="city">Cidade</label>
+                <input
+                  type="text"
+                  name="city"
+                  id="city"
+                  className="form-control"
+                  value={city}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <input type="button" className="btn btn-success" value="Inserir" onClick={this.submitForm} />
+            </form>
+          );
+        }
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

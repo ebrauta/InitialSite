@@ -1,0 +1,6 @@
+#Bootstrap
+/ceoo/css/bootstrap*.*
+/ceoo/js/bootstrap*.*
+
+#JQuery
+/ceoo/js/jquery*.*

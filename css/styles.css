@@ -1,0 +1,22 @@
+body{
+    background: rgb(247, 247, 247);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+hr {
+    height: 3px;
+}
+
+p {
+    text-indent: 20px;
+}
+
+table {
+    border-radius: 5px;
+}
+
+button, input[type = "button"] {
+    width: 150px;
+
+}
+
